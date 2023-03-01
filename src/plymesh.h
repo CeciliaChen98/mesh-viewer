@@ -1,6 +1,6 @@
 //--------------------------------------------------
-// Author:
-// Date:
+// Author: Yue Chen
+// Date: 02/28/2023
 // Description: Loads PLY files in ASCII format
 //--------------------------------------------------
 
@@ -45,11 +45,17 @@ namespace agl {
       // face indices in this model
       const std::vector<GLuint>& indices() const;
 
+      void clear();
+      
+
    protected:
       void init();
 
    protected:
-
+      int _faceNum;
+      int _vertexNum;
+      glm::vec3 _maxBound = glm::vec3{FLT_MIN,FLT_MIN,FLT_MIN};
+      glm::vec3 _minBound = glm::vec3 {FLT_MAX,FLT_MAX,FLT_MAX};
       std::vector<GLfloat> _positions;
       std::vector<GLfloat> _normals;
       std::vector<GLuint> _faces;

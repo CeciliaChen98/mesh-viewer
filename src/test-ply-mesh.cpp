@@ -10,14 +10,14 @@ using namespace glm;
 using namespace agl;
 
 int main() {
-   PLYMesh mesh("../models/triangle.ply");
+   PLYMesh mesh("../models/helix.ply");
 
    // print vertices, normals, colors, etc
    std::cout << "This mesh has " << mesh.numVertices() << " vertices" << std::endl;
    std::cout << "Max bounds: " << mesh.maxBounds() << std::endl; 
    std::cout << "Min bounds: " << mesh.minBounds() << std::endl; 
 
-   std::cout << std::endl << "Positions: " << std::endl;
+   /*std::cout << std::endl << "Positions: " << std::endl;
    for (int i = 0; i < mesh.numVertices()*3; i+=3) {
       float x = mesh.positions()[i+0];
       float y = mesh.positions()[i+1];
@@ -39,7 +39,7 @@ int main() {
       int i2 = mesh.indices()[i+1];
       int i3 = mesh.indices()[i+2];
       std::cout << i1 << " " << i2 << " " << i3 << std::endl;
-   }
+   }*/
    return 0;
 }
 
