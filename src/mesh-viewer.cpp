@@ -147,15 +147,11 @@ public:
       GLfloat my = -(maxY+minY)/2.0f;
       GLfloat mz = -(maxZ+minZ)/2.0f;
       renderer.translate(vec3(mx+x,my+y,mz+z));
-
       renderer.mesh(mesh);
       //renderer.cube(); // for debugging!
    }
 
-   void clear(){
-      mesh.clear();
-   }
-
+   
 protected:
    PLYMesh mesh;
    vec3 eyePos = vec3(10, 0, 0);
@@ -176,7 +172,6 @@ int main(int argc, char** argv)
 {
    MeshViewer viewer;
    viewer.run();
-   viewer.clear();
    return 0;
 }
 
