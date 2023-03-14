@@ -22,6 +22,9 @@ public:
 
    void setup() {
       filename = "../models/"+filenames[index];
+      renderer.loadShader("normals", "../shaders/normals.vs", "../shaders/normals.fs");
+      renderer.loadShader("phong-vertex", "../shaders/phong-vertex.vs", "../shaders/phong-vertex.fs");
+      renderer.loadShader("phong-pixel", "../shaders/phong-pixel.vs", "../shaders/phong-pixel.fs");
       mesh.load(filename);
    }
 
@@ -103,17 +106,17 @@ public:
       if(key==GLFW_KEY_E){
          y--;
       }
-      if(key==GLFW_KEY_W){
-         z++;
-      }
-      if(key==GLFW_KEY_S){
-         z--;
-      }
       if(key==GLFW_KEY_A){
          x++;
       }
       if(key==GLFW_KEY_D){
          x--;
+      }
+      if(key==GLFW_KEY_S){
+         shader++;
+         if(shader>=shaders.size()){
+            shader = 0;
+         }
       }
    }
 
@@ -124,7 +127,11 @@ public:
          float eyeZ = 10* sin(azimuth/360.0*2*pie)*cos(elevation/360.0*2*pie);
          eyePos = vec3(eyeX,eyeY,eyeZ);
    }
+
+
    void draw() {
+      renderer.beginShader(shaders[shader]);
+
       float aspect = ((float)width()) / height();
       renderer.perspective(glm::radians(60.0f), aspect, 0.1f, 50.0f);
       renderer.lookAt(eyePos, lookPos, up);
@@ -149,6 +156,7 @@ public:
       renderer.translate(vec3(mx+x,my+y,mz+z));
       renderer.mesh(mesh);
       //renderer.cube(); // for debugging!
+      renderer.endShader();
    }
 
    
@@ -158,6 +166,7 @@ protected:
    vec3 lookPos = vec3(0, 0, 0);
    vec3 up = vec3(0, 1, 0);
    int index = 0;
+   int shader = 0;
    float _scale = 1.0f;
    float x=0.0f;
    float y=0.0f;
@@ -166,6 +175,7 @@ protected:
    int elevation = 0;
    string filename;
    std::vector<string> filenames = GetFilenamesInDir("../models", "ply");
+   std::vector<string> shaders = {"normals","phong-vertex","phong-pixel"};
 };
 
 int main(int argc, char** argv)
