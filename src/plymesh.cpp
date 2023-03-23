@@ -21,7 +21,7 @@ namespace agl {
 
    void PLYMesh::init() {
       assert(_positions.size() != 0);
-      initBuffers(&_faces, &_positions, &_normals);
+      initBuffers(&_faces, &_positions, &_normals, &_uvs);
    }
 
    PLYMesh::~PLYMesh() {
@@ -44,13 +44,18 @@ namespace agl {
             return false;
          }
          //find the number of vertices
+         int property = 0;
          while(word!="vertex"){
             myfile >> word;
+            
          }
          myfile >> word;
          _vertexNum = stoi(word);
          //find the number of faces
          while(word!="face"){
+            if(word=="property"){
+               property++;
+            }
             myfile >> word;
          }
          myfile >> word;
@@ -87,6 +92,13 @@ namespace agl {
             _normals.push_back(stof(word));
             myfile>>word;
             _normals.push_back(stof(word));
+
+            if(property > 6){
+               myfile>>word;
+               _uvs.push_back(stof(word));
+               myfile>>word;
+               _uvs.push_back(stof(word));
+            }
             std::getline(myfile,line);
          }         
          while(myfile>>word){
@@ -130,10 +142,15 @@ namespace agl {
       return _faces;
    }
 
+   const std::vector<GLfloat>& PLYMesh::uvs() const {
+      return _uvs;
+   }
+
    void PLYMesh::clear() {
       _positions.clear();
       _normals.clear();
       _faces.clear();
+      _uvs.clear();
       _maxBound = glm::vec3{FLT_MIN,FLT_MIN,FLT_MIN};
       _minBound = glm::vec3 {FLT_MAX,FLT_MAX,FLT_MAX};
    }

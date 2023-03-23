@@ -21,11 +21,22 @@ public:
    }
 
    void setup() {
-      filename = "../models/"+filenames[index];
+
+      filename = "../uv-models/"+filenames[index];
+
+      renderer.loadTexture("bacteria", "../textures/bacteria.png",0);
+      renderer.loadTexture("circles", "../textures/circles.png",0);
+      renderer.loadTexture("lines", "../textures/lines.png",0);
+      renderer.loadTexture("daisy_1", "../textures/daisy_1.png",0);
+      
       renderer.loadShader("normals", "../shaders/normals.vs", "../shaders/normals.fs");
       renderer.loadShader("phong-vertex", "../shaders/phong-vertex.vs", "../shaders/phong-vertex.fs");
       renderer.loadShader("phong-pixel", "../shaders/phong-pixel.vs", "../shaders/phong-pixel.fs");
+      renderer.loadShader("phong-textures", "../shaders/phong-vertex-textures.vs", "../shaders/phong-vertex-textures.fs");
+      renderer.loadShader("toon", "../shaders/toon.vs", "../shaders/toon.fs");
+
       mesh.load(filename);
+      //mesh.load("../models/cow-uvs.ply"); for debugging
    }
 
    void mouseMotion(int x, int y, int dx, int dy) {
@@ -68,7 +79,7 @@ public:
          eyePos = vec3(10, 0, 0);
          x=0;y=0;z=0;
          _scale = 1.0f;
-         string filename = "../models/"+filenames[index];
+         string filename = "../uv-models/"+filenames[index];
          mesh.clear();
          mesh = PLYMesh(filename);
       }      
@@ -81,16 +92,11 @@ public:
          elevation = 0; azimuth = 0;
          x=0;y=0;z=0;
          _scale = 1.0f;
-         string filename = "../models/"+filenames[index];
+         string filename = "../uv-models/"+filenames[index];
          mesh.clear();
          mesh = PLYMesh(filename);
       }
-      if(key==GLFW_KEY_LEFT){
-         
-      }
-      if(key==GLFW_KEY_RIGHT){
       
-      }
       if(key==GLFW_KEY_UP){
          _scale = _scale +0.1f;
       }
@@ -118,6 +124,12 @@ public:
             shader = 0;
          }
       }
+      if(key==GLFW_KEY_W){
+         texture++;
+         if(texture>=textures.size()){
+            texture = 0;
+         }
+      }
    }
 
    void updateEyePos(){
@@ -131,6 +143,8 @@ public:
 
    void draw() {
       renderer.beginShader(shaders[shader]);
+      //renderer.beginShader("phong-vertex"); for debugging
+      renderer.texture("diffuseTexture",textures[texture]);
 
       float aspect = ((float)width()) / height();
       renderer.perspective(glm::radians(60.0f), aspect, 0.1f, 50.0f);
@@ -167,6 +181,7 @@ protected:
    vec3 up = vec3(0, 1, 0);
    int index = 0;
    int shader = 0;
+   int texture = 0;
    float _scale = 1.0f;
    float x=0.0f;
    float y=0.0f;
@@ -174,8 +189,9 @@ protected:
    int azimuth = 0;
    int elevation = 0;
    string filename;
-   std::vector<string> filenames = GetFilenamesInDir("../models", "ply");
-   std::vector<string> shaders = {"normals","phong-vertex","phong-pixel"};
+   std::vector<string> filenames = GetFilenamesInDir("../uv-models", "ply");
+   std::vector<string> shaders = {"normals","phong-vertex","phong-pixel","phong-textures","toon"};
+   std::vector<string> textures = {"bacteria","circles","daisy_1","lines"};
 };
 
 int main(int argc, char** argv)

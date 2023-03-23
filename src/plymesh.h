@@ -39,6 +39,9 @@ namespace agl {
       // Positions in this model
       const std::vector<GLfloat>& normals() const;
 
+      // Uvs in this model
+      const std::vector<GLfloat>& uvs() const;
+
       // Return number of faces in this model
       int numTriangles() const;
 
@@ -59,6 +62,7 @@ namespace agl {
       std::vector<GLfloat> _positions;
       std::vector<GLfloat> _normals;
       std::vector<GLuint> _faces;
+      std::vector<GLfloat> _uvs;
    };
 }
 

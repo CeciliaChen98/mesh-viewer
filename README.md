@@ -2,7 +2,7 @@
 
 Implements a simple PLY viewer
 
-TODO: Add a representative image for your project here
+![avatar](/arts/cow-toon.png)
 
 ## How to build
 
@@ -44,8 +44,46 @@ mesh-viewer/build $ ../bin/mesh-viewer
 
 ## Demo of basic features
 
-TODO: Document the core features of your viewer (shaders + models)
+```
+key N: view next model
+key P: view previous model
+```
+![avatar](/arts/models.gif)
+
+```
+key S: view next shader
+```
+![avatar](/arts/shaders.gif)
+
+```
+mouse move: change direction of viewing
+
+```
+![avatar](/arts/directions.gif)
+
+```
+Shaders: normals
+```
+![avatar](/arts/normals.gif)
+```
+Shaders: phong-pixel
+```
+![avatar](/arts/phong-pixel.gif)
+
+```
+Shaders: phong-vertex
+```
+![avatar](/arts/phong-vertex.gif)
 
 ## Unique features 
 
-TODO: Show the unique features you made
+```
+Unique Shaders: toon
+```
+![avatar](/arts/cow-toon.gif)
+
+```
+key W: apply next texture
+```
+![avatar](/arts/textures.gif)
+![avatar](/arts/apple.gif)
